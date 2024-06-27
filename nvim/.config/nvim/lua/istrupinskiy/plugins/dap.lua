@@ -45,7 +45,7 @@ return {
                 },
                     -- {
                     --     id = "console",
-                    --     size = 0.5
+                    --     size = 0.25
                     -- }
                 },
                 position = "bottom",
@@ -55,7 +55,6 @@ return {
         config = function(_, opts)
             local dap = require("dap")
             local dapui = require("dapui")
-            dapui.setup(opts)
             dap.listeners.after.event_initialized["dapui_config"] = function()
                 dapui.open({})
             end
@@ -65,6 +64,7 @@ return {
             dap.listeners.before.event_exited["dapui_config"] = function()
                 dapui.close({})
             end
+            dapui.setup(opts)
         end,
     },
     {
