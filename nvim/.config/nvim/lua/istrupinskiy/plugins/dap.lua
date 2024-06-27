@@ -19,7 +19,39 @@ return {
     {
         "rcarriga/nvim-dap-ui",
         dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-        opts = {},
+        -- all defaults except I got rid of the console (for now).
+        -- Can just replace opts with {} to get back to defaults.
+        opts = {
+            layouts = { {
+                elements = { {
+                    id = "scopes",
+                    size = 0.25
+                }, {
+                    id = "breakpoints",
+                    size = 0.25
+                }, {
+                    id = "stacks",
+                    size = 0.25
+                }, {
+                    id = "watches",
+                    size = 0.25
+                } },
+                position = "left",
+                size = 40
+            }, {
+                elements = { {
+                    id = "repl",
+                    size = 1
+                },
+                    -- {
+                    --     id = "console",
+                    --     size = 0.5
+                    -- }
+                },
+                position = "bottom",
+                size = 10
+            } }
+        },
         config = function(_, opts)
             local dap = require("dap")
             local dapui = require("dapui")
