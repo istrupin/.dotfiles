@@ -1,6 +1,9 @@
 return {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = { "LiadOz/nvim-dap-repl-highlights" },
+    dependencies = {
+        "LiadOz/nvim-dap-repl-highlights",
+        -- "nvim-treesitter/nvim-treesitter-refactor"
+    },
     build = ':TSUpdate',
     opts = {
 

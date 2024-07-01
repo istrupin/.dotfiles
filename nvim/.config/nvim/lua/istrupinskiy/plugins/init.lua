@@ -28,7 +28,8 @@ return {
         keys =
         {
             { "<leader>gs", vim.cmd.Git }
-        }
+        },
+        lazy = false
     },
     "nvim-lua/plenary.nvim",
     {
