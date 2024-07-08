@@ -30,8 +30,10 @@ return {
     },
     config = function(_, opts)
         require('nvim-dap-repl-highlights').setup()
+        require("nvim-treesitter.install").compilers = { "gcc-14" }
         local configs = require("nvim-treesitter.configs")
         configs.setup(opts)
     end
 
 }
+

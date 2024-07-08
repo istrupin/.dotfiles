@@ -65,6 +65,9 @@ return {
                 dapui.close({})
             end
             dapui.setup(opts)
+
+            vim.fn.sign_define('DapBreakpoint',
+                { text = '🔴', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
         end,
     },
     {
@@ -103,6 +106,7 @@ return {
             { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
             { "<leader>du", function() require("dapui").toggle({}) end,                                           desc = "Dap UI" },
             { "<leader>de", function() require("dapui").eval() end,                                               desc = "Eval",                   mode = { "n", "v" } },
+            { "<leader>dx", function() require("dapui").open({ reset = true }) end,                               desc = "Reset UI" },
         },
 
     }
