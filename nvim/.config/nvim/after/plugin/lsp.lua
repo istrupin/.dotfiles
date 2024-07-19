@@ -48,7 +48,7 @@ cmp.setup({
         { name = 'nvim_lua' },
         { name = 'luasnip' },
         { name = 'buffer' },
-        { name = 'nvim_lsp_signature_help' },
+        -- { name = 'nvim_lsp_signature_help' },
     },
     mapping = cmp.mapping.preset.insert({
         -- confirm completion

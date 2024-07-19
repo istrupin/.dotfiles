@@ -12,7 +12,7 @@ return {
             require("neotest").setup({
                 adapters = { require("neotest-python")({
                     runner = "pytest",
-                    args = { "--no-cov" },
+                    args = {"--no-cov" },
                     dap = { justMyCode = true },
                     python = ".venv/bin/python",
                 })

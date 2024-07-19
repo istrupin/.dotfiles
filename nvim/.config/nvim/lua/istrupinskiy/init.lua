@@ -12,7 +12,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--- -- Format on Save
+
+-- Format on Save
 -- vim.api.nvim_create_autocmd("LspAttach", {
 --     group = vim.api.nvim_create_augroup("lsp", { clear = true }),
 --     callback = function(args)
