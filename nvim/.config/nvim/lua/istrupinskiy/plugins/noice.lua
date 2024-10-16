@@ -1,5 +1,6 @@
 return {
     "folke/noice.nvim",
+    commit = "5fd435c3c6c70d1fe79923593124aa0d52534bc1",
     -- event = "VeryLazy",
     opts = {
         lsp = {

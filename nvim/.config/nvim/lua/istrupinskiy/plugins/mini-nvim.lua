@@ -10,6 +10,7 @@ return {
     config = function(_, opts)
         require('mini.bracketed').setup({
             undo = { suffix = '', options = {} },
+            comment = {suffix = 'z', options = {}},
         })
         local ai = require("mini.ai")
         ai.setup({
