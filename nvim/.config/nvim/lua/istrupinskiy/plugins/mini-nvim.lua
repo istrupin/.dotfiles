@@ -15,7 +15,7 @@ return {
         local ai = require("mini.ai")
         ai.setup({
             custom_textobjects = {
-                -- for function definition.  This way, 'f' is function call, 'F' us function definition
+                -- for function definition.  This way, 'f' is function call, 'F' is function definition
                 F = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
                 o = ai.gen_spec.treesitter({ -- code block
                     a = { "@block.outer", "@conditional.outer", "@loop.outer" },
