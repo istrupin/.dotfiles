@@ -23,5 +23,6 @@ return {
                 }),
             }
         })
+        require('mini.icons').setup()
     end
 }

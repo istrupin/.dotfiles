@@ -11,7 +11,15 @@ return {
             { '<leader>pg', function() require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") }); end },
             { '<leader>ps', function() require("telescope.builtin").grep_string(); end },
             { '<leader>pl', function() require("telescope.builtin").live_grep({}); end },
-        }
+            { '<leader>ph', function() require("telescope.builtin").help_tags({}); end },
+        },
+        config = function(_, opts)
+            require("telescope").setup{
+                extensions = {
+                    fzf = {}
+                }
+            }
+        end
     },
     {
         'nvim-telescope/telescope-fzf-native.nvim',
