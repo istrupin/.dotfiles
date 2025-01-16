@@ -36,6 +36,7 @@ vim.api.nvim_create_user_command('Rfinder',
 )
 --
 --
+vim.g.maplocalleader = ','
 require("istrupinskiy.lazy")
 require("istrupinskiy.remap")
 require("istrupinskiy.set")
