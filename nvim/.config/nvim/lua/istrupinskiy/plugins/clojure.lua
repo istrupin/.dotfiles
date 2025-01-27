@@ -26,6 +26,19 @@ return {
     end,
   },
   -- Structural editing, optional
-  {'tpope/vim-sexp-mappings-for-regular-people', ft="clojure"},
-  {'guns/vim-sexp', ft="clojure"},
+  -- {'tpope/vim-sexp-mappings-for-regular-people', ft="clojure"},
+  -- {'guns/vim-sexp', ft="clojure"},
+  -- {'gpanders/nvim-parinfer', ft="clojure"}
+  {
+      'dundalek/parpar.nvim',
+      dependencies = { "gpanders/nvim-parinfer", "julienvincent/nvim-paredit" },
+      ft={"clojure", "edn"},
+      config = function()
+        local paredit = require("nvim-paredit")
+        require("parpar").setup {
+
+        }
+      end
+  }
+
 }
