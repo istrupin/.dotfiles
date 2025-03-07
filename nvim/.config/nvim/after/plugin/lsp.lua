@@ -22,6 +22,8 @@ lsp_zero.extend_lspconfig({
     }
 })
 
+
+
 -- lsp_zero.on_attach(function(client, bufnr)
 --     -- see :help lsp-zero-keybindings
 --     -- to learn the available actions
@@ -29,6 +31,7 @@ lsp_zero.extend_lspconfig({
 -- end)
 
 -- format on save
+--
 lsp_zero.format_on_save({
     format_opts = {
         async = false,
@@ -36,10 +39,11 @@ lsp_zero.format_on_save({
     },
     servers = {
         ['ruff'] = { 'python' },
+        ['clojure_lsp'] = {'clojure'}
+        -- ['null-ls'] = { 'javascript', 'typescript' },
     }
 })
 --
-
 -- to learn how to use mason.nvim
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
 require('mason').setup({})
@@ -122,3 +126,7 @@ cmp.setup.cmdline(':', {
         }
     })
 })
+
+
+
+
