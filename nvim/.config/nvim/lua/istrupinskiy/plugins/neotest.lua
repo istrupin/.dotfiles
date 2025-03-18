@@ -1,5 +1,6 @@
 return {
     { "nvim-neotest/neotest-python" },
+    { "nvim-neotest/neotest-jest" },
     {
         "nvim-neotest/neotest",
         dependencies = {
@@ -10,12 +11,20 @@ return {
         },
         config = function()
             require("neotest").setup({
-                adapters = { require("neotest-python")({
-                    runner = "pytest",
-                    args = {"--no-cov" },
-                    dap = { justMyCode = true },
-                    python = ".venv/bin/python",
-                })
+                adapters = {
+                    require("neotest-python")({
+                        runner = "pytest",
+                        args = {"--no-cov" },
+                        dap = { justMyCode = true },
+                        python = ".venv/bin/python",
+                    }),
+                    require("neotest-jest")({
+                        jestCommand = "npm test --",
+                        cwd = function(path)
+                            return vim.fn.getcwd()
+                        end,
+
+                    })
                 },
                 quickfix = {
                     enabled = true,

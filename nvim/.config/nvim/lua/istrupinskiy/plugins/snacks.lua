@@ -14,6 +14,8 @@ return {
     },
     indent = { enabled = true},
     input = { enabled = true},
+    gitbrowse = {enabled = true},
+    git = {enabled = true},
     dashboard = {
         enabled = true,
         sections = {
