@@ -42,9 +42,15 @@ return {
             end,
         },
     },
+
+    init = function()
+        require("istrupinskiy.companion_fidget"):init()
+    end,
+
     config = true,
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
+        "j-hui/fidget.nvim"
     },
 }
