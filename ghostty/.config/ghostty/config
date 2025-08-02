@@ -1,0 +1,19 @@
+theme = rose-pine
+background-blur-radius = 20
+mouse-hide-while-typing = true
+window-decoration = true
+keybind = global:cmd+s=toggle_quick_terminal
+background-opacity = 0.5
+adjust-cursor-thickness = 100%
+custom-shader-animation = "always"
+# custom-shader = /Users/igorstrupinskiy/code/ghostty-shaders/sparks-from-fire.glsl
+
+
+# Font configuration
+font-family = "MesloLGS Nerd Font"
+font-size = 14
+
+# Alternative fonts if you don't have MesloLGS:
+# font-family = "Hack Nerd Font"
+# font-family = "JetBrainsMono Nerd Font" 
+# font-family = "FiraCode Nerd Font"
