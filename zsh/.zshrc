@@ -55,6 +55,7 @@ zinit light-mode for \
 
 zinit load zsh-users/zsh-completions
 zinit load zsh-users/zsh-syntax-highlighting  
+zinit load jeffreytse/zsh-vi-mode
 
 zinit ice wait lucid
 zinit load zsh-users/zsh-autosuggestions
