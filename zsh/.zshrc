@@ -25,6 +25,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # Added by Windsurf
 export PATH="/Users/igorstrupinskiy/.codeium/windsurf/bin:$PATH"
 
+export EZA_CONFIG_DIR="$HOME/.config/eza/"
 
 
 
@@ -86,13 +87,23 @@ alias gp='git push'
 alias gl='git pull'
 alias gd='git diff'
 alias gb='git branch'
-# alias ll='ls -la'
 
-alias ll='ls -la'
+alias e='eza'
+alias ee='eza -la'
+alias ll='eza -la'
 alias la='ls -lAh' 
 alias l='ls -lah'
 alias showfiles='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
 alias hidefiles='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
 
+eval "$(zoxide init zsh)"
+
+# History optimization for starship compatibility
+setopt SHARE_HISTORY INC_APPEND_HISTORY HIST_FIND_NO_DUPS
+HISTSIZE=5000
+SAVEHIST=5000
+
+# Force immediate history loading before starship init
+fc -R
 
 eval "$(starship init zsh)"
