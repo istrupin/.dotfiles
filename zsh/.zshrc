@@ -1,10 +1,10 @@
+# zmodload zsh/zprof
+
 eval "$(pyenv init -)"
 # Removed: eval $(ssh-agent) - using macOS Keychain integration instead
 
-source $(brew --prefix nvm)/nvm.sh
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && \. "/usr/local/opt/nvm/etc/bash_completion"
+[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -107,3 +107,5 @@ SAVEHIST=5000
 fc -R
 
 eval "$(starship init zsh)"
+
+# zprof
