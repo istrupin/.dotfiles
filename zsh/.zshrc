@@ -1,5 +1,5 @@
 eval "$(pyenv init -)"
-eval $(ssh-agent)
+# Removed: eval $(ssh-agent) - using macOS Keychain integration instead
 
 source $(brew --prefix nvm)/nvm.sh
 export NVM_DIR="$HOME/.nvm"
@@ -58,10 +58,10 @@ zinit load zsh-users/zsh-completions
 zinit load zsh-users/zsh-syntax-highlighting  
 zinit load jeffreytse/zsh-vi-mode
 
-zinit ice wait lucid
+# zinit ice wait lucid
 zinit load zsh-users/zsh-autosuggestions
 
-zinit ice wait lucid
+# zinit ice wait lucid
 # fzf-tab - replaces tab completion with fzf interface
 zinit load Aloxaf/fzf-tab
 

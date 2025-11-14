@@ -19,10 +19,11 @@ return {
             },
         },
         adapters = {
-            opts = {
-                log_level = "TRACE",
-                show_defaults = false
-            },
+            http = {
+                opts = {
+                    log_level = "TRACE",
+                    show_defaults = false
+                },
             litellm = function()
                 local l_env = require("istrupinskiy.llm_env")
                 return require("codecompanion.adapters").extend("openai_compatible", {
@@ -42,6 +43,7 @@ return {
 
                 })
             end,
+            }
         },
     },
 

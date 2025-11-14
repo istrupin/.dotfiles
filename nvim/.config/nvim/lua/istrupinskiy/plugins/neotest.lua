@@ -15,7 +15,7 @@ return {
                     require("neotest-python")({
                         runner = "pytest",
                         args = {"--no-cov" },
-                        dap = { justMyCode = true },
+                        dap = { justMyCode = false },
                         python = ".venv/bin/python",
                     }),
                     require("neotest-jest")({
