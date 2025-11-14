@@ -3,11 +3,10 @@
 eval "$(pyenv init -)"
 # Removed: eval $(ssh-agent) - using macOS Keychain integration instead
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"
+# NVM lazy loading moved to zinit section below
 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
@@ -17,10 +16,6 @@ export PATH="/Users/igorstrupinskiy/.rd/bin:$PATH"
 #
 #
 export EDITOR='nvim'
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # Added by Windsurf
 export PATH="/Users/igorstrupinskiy/.codeium/windsurf/bin:$PATH"
@@ -51,10 +46,27 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
+# Old simple compinit (slow on every shell startup):
+# autoload -U compinit && compinit
+
+# Cache compinit for faster startup - only rebuild once per 24 hours
+# Must run BEFORE fzf-tab (per fzf-tab docs)
+autoload -Uz compinit
+
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qNmh+24) ]]; then
+  compinit  # Rebuild cache if older than 24 hours
+else
+  compinit -C  # Skip security check and use cached version
+fi
+
+# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# (Moved here to be after compinit but before plugins)
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # Initialize completions
 
-zinit load zsh-users/zsh-completions
+zinit light zsh-users/zsh-completions  # Use 'light' to prevent duplicate compinit calls
 zinit load zsh-users/zsh-syntax-highlighting  
 zinit load jeffreytse/zsh-vi-mode
 
@@ -65,12 +77,13 @@ zinit load zsh-users/zsh-autosuggestions
 # fzf-tab - replaces tab completion with fzf interface
 zinit load Aloxaf/fzf-tab
 
-
-
+# Lazy load NVM for faster shell startup
+export NVM_DIR="$HOME/.nvm"
+export NVM_LAZY_LOAD=true
+export NVM_AUTO_USE=false  # Disable auto .nvmrc switching for speed
+zinit light lukechilds/zsh-nvm
 
 source <(fzf --zsh)
-
-autoload -U compinit && compinit
 
 ### End of Zinit's installer chunk
 #
