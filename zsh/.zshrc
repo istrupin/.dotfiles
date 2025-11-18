@@ -7,12 +7,6 @@ eval "$(mise activate zsh)"
 # NVM lazy loading moved to zinit section below
 
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh # commented because we use source<(fzf --zsh) now
-#
-# # remove because i use ghossty now
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/igorstrupinskiy/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
@@ -24,8 +18,6 @@ export EDITOR='nvim'
 export PATH="/Users/igorstrupinskiy/.codeium/windsurf/bin:$PATH"
 
 export EZA_CONFIG_DIR="$HOME/.config/eza/"
-
-
 
 
 ### Added by Zinit's installer
@@ -80,19 +72,11 @@ function zvm_after_init() {
 
 zinit load jeffreytse/zsh-vi-mode
 
-# zinit ice wait lucid
 zinit load zsh-users/zsh-autosuggestions
 
-# zinit ice wait lucid
 # fzf-tab - replaces tab completion with fzf interface
 zinit load Aloxaf/fzf-tab
 
-# Lazy load NVM for faster shell startup
-# commenting out because want to try mise
-# export NVM_DIR="$HOME/.nvm"
-# export NVM_LAZY_LOAD=true
-# export NVM_AUTO_USE=false  # Disable auto .nvmrc switching for speed
-# zinit light lukechilds/zsh-nvm
 
 # old fzf sourcing happened here
 ### End of Zinit's installer chunk
