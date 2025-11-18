@@ -1,13 +1,16 @@
 # zmodload zsh/zprof
 
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)" ## comment out because going to try to use mise
+eval "$(mise activate zsh)"
 # Removed: eval $(ssh-agent) - using macOS Keychain integration instead
 
 # NVM lazy loading moved to zinit section below
 
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh # commented because we use source<(fzf --zsh) now
+#
+# # remove because i use ghossty now
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
@@ -60,13 +63,21 @@ else
 fi
 
 # SDKMAN initialization (kept after compinit to avoid duplicate compinit calls)
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+# commented out bc trying Mise
+# export SDKMAN_DIR="$HOME/.sdkman"
+# [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
 # Initialize completions
 
 zinit light zsh-users/zsh-completions  # Use 'light' to prevent duplicate compinit calls
-zinit load zsh-users/zsh-syntax-highlighting  
+zinit load zsh-users/zsh-syntax-highlighting
+
+# Initialize fzf after zsh-vi-mode completes to prevent keybinding conflicts
+# if you get rid of the zvm_after_init you still need to  source <(fzf --zsh)
+function zvm_after_init() {
+  source <(fzf --zsh)
+}
+
 zinit load jeffreytse/zsh-vi-mode
 
 # zinit ice wait lucid
@@ -77,13 +88,13 @@ zinit load zsh-users/zsh-autosuggestions
 zinit load Aloxaf/fzf-tab
 
 # Lazy load NVM for faster shell startup
-export NVM_DIR="$HOME/.nvm"
-export NVM_LAZY_LOAD=true
-export NVM_AUTO_USE=false  # Disable auto .nvmrc switching for speed
-zinit light lukechilds/zsh-nvm
+# commenting out because want to try mise
+# export NVM_DIR="$HOME/.nvm"
+# export NVM_LAZY_LOAD=true
+# export NVM_AUTO_USE=false  # Disable auto .nvmrc switching for speed
+# zinit light lukechilds/zsh-nvm
 
-source <(fzf --zsh)
-
+# old fzf sourcing happened here
 ### End of Zinit's installer chunk
 #
 #
