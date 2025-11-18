@@ -60,7 +60,6 @@ fi
 # [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
 # Initialize completions
-
 zinit light zsh-users/zsh-completions  # Use 'light' to prevent duplicate compinit calls
 zinit load zsh-users/zsh-syntax-highlighting
 
@@ -80,11 +79,6 @@ zinit load Aloxaf/fzf-tab
 
 # old fzf sourcing happened here
 ### End of Zinit's installer chunk
-#
-#
-# 
-#
-#
 
 alias gst='git status'
 alias ga='git add'
