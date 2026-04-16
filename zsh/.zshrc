@@ -41,6 +41,9 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
+# Load completions BEFORE compinit so $fpath entries are picked up
+zinit light zsh-users/zsh-completions
+
 # Old simple compinit (slow on every shell startup):
 # autoload -U compinit && compinit
 
@@ -59,8 +62,6 @@ fi
 # export SDKMAN_DIR="$HOME/.sdkman"
 # [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
-# Initialize completions
-zinit light zsh-users/zsh-completions  # Use 'light' to prevent duplicate compinit calls
 zinit load zsh-users/zsh-syntax-highlighting
 
 # Initialize fzf after zsh-vi-mode completes to prevent keybinding conflicts
@@ -110,3 +111,6 @@ fc -R
 eval "$(starship init zsh)"
 
 # zprof
+export NODE_EXTRA_CA_CERTS="/Library/Application Support/Claude/ca-cert.pem"
+# export NODE_OPTIONS="--use-openssl-ca"  # breaks fetch/undici on Node 24.11.1
+# export NODE_EXTRA_CA_CERTS="$HOME/certs/combined-ca-certs.pem"
