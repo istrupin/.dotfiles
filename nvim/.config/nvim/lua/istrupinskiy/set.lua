@@ -2,6 +2,15 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+-- file extension -> filetype overrides
+vim.filetype.add({
+    extension = {
+        edn = 'clojure',       -- edn is Clojure data; reuse clojure tooling
+        mdx = 'markdown',      -- lets marksman attach to .mdx
+        tfvars = 'terraform',  -- lets terraformls attach to .tfvars
+    },
+})
+
 
 -- tabs
 vim.opt.tabstop = 4

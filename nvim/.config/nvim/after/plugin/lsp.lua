@@ -1,63 +1,86 @@
-local lsp_zero = require('lsp-zero')
+-- LSP: native vim.lsp.config / vim.lsp.enable (Neovim 0.11+).
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- keybindings
 
-
-local lsp_attach = function(client, bufnr)
-    lsp_zero.default_keymaps({ buffer = bufnr })
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-end
-
-vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 vim.opt.signcolumn = 'yes'
+vim.o.winborder = 'rounded'
 
-lsp_zero.extend_lspconfig({
+-- Global defaults for every server.
+vim.lsp.config('*', {
     capabilities = capabilities,
-    lsp_attach = lsp_attach,
-    float_border = 'rounded',
-    sign_text = {
-        error = '✘',
-        warn = '▲',
-        hint = '⚑',
-        info = ''
-    }
 })
 
+-- Trim server filetypes to the ones Neovim actually knows:
+--   .edn    -> clojure        (see set.lua)
+--   .mdx    -> markdown       (see set.lua)
+--   .tfvars -> terraform      (see set.lua)
+vim.lsp.config('clojure_lsp', { filetypes = { 'clojure' } })
+vim.lsp.config('marksman',    { filetypes = { 'markdown' } })
+vim.lsp.config('terraformls', { filetypes = { 'terraform' } })
 
+-- Pin ruff to UTF-16 so it matches pyright on shared buffers (avoids the
+-- "buffers attached to clients with different position encodings" warning).
+vim.lsp.config('ruff', {
+    capabilities = vim.tbl_deep_extend('force', {}, capabilities, {
+        general = { positionEncodings = { 'utf-16' } },
+    }),
+})
 
--- lsp_zero.on_attach(function(client, bufnr)
---     -- see :help lsp-zero-keybindings
---     -- to learn the available actions
---     lsp_zero.default_keymaps({ buffer = bufnr })
--- end)
-
--- format on save
---
-lsp_zero.format_on_save({
-    format_opts = {
-        async = false,
-        timeout_ms = 10000,
+-- Diagnostic UI.
+vim.diagnostic.config({
+    float = { border = 'rounded' },
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '✘',
+            [vim.diagnostic.severity.WARN]  = '▲',
+            [vim.diagnostic.severity.HINT]  = '⚑',
+            [vim.diagnostic.severity.INFO]  = '',
+        },
     },
-    servers = {
-        ['ruff'] = { 'python' },
-        ['clojure_lsp'] = {'clojure'}
-        -- ['null-ls'] = { 'javascript', 'typescript' },
-    }
 })
---
--- to learn how to use mason.nvim
--- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
+
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
+
+-- Buffer-local keymaps on attach. 0.11+ natively provides grn/grr/gri/gra/[d/]d,
+-- so we only add gd (definition) and K (hover).
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('istrupinskiy.lsp', { clear = true }),
+    callback = function(ev)
+        local bufopts = { buffer = ev.buf, silent = true }
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    end,
+})
+
+-- Format on save for ruff (python) and clojure_lsp (clojure).
+vim.api.nvim_create_autocmd('BufWritePre', {
+    group = vim.api.nvim_create_augroup('istrupinskiy.lsp.format', { clear = true }),
+    callback = function(ev)
+        local ft = vim.bo[ev.buf].filetype
+        local formatters = {
+            python = 'ruff',
+            clojure = 'clojure_lsp',
+        }
+        local wanted = formatters[ft]
+        if not wanted then return end
+        vim.lsp.buf.format({
+            bufnr = ev.buf,
+            async = false,
+            timeout_ms = 10000,
+            filter = function(client) return client.name == wanted end,
+        })
+    end,
+})
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = {  'eslint', 'lua_ls', 'pyright', 'ruff',  'terraformls', 'clojure_lsp', 'ts_ls', 'marksman'},
-    handlers = {
-        function(server_name)
-            require('lspconfig')[server_name].setup({ capabilities = capabilities })
-        end,
+    ensure_installed = {
+        'eslint', 'lua_ls', 'pyright', 'ruff',
+        'terraformls', 'clojure_lsp', 'ts_ls', 'marksman',
     },
+    automatic_enable = true,
 })
 
-
+-- nvim-cmp
 local luasnip = require('luasnip')
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -72,18 +95,13 @@ cmp.setup({
         { name = 'nvim_lua' },
         { name = 'luasnip' },
         { name = 'buffer' },
-        -- { name = 'nvim_lsp_signature_help' },
     },
     mapping = cmp.mapping.preset.insert({
-        -- confirm completion
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-        -- prev and next
         ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-        -- scroll up and down the documentation window
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        -- super tab
         ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -102,25 +120,21 @@ cmp.setup({
                 fallback()
             end
         end, { 'i', 's' }),
-        -- start completion
         ['<C-Space>'] = cmp.mapping.complete(),
     }),
 
-    -- nvim dap cmp setup
     enabled = function()
         return vim.bo[0].buftype ~= "prompt"
             or require("cmp_dap").is_dap_buffer()
     end
-    --
 })
--- more dap cmp setup
+
 require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
     sources = {
         { name = "dap" },
     },
 })
---
--- `/` cmdline setup.
+
 cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
@@ -128,7 +142,6 @@ cmp.setup.cmdline('/', {
     }
 })
 
--- `:` cmdline setup.
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
@@ -142,7 +155,3 @@ cmp.setup.cmdline(':', {
         }
     })
 })
-
-
-
-

@@ -2,8 +2,7 @@ return {
 
     {
         'nvim-telescope/telescope.nvim',
-        version = '0.1.8',
-        -- or                            , branch = '0.1.x',
+        tag = 'v0.2.1',
         dependencies = { { 'nvim-lua/plenary.nvim' } }
     },
 
@@ -15,7 +14,6 @@ return {
         end
     },
 
-    'nvim-treesitter/playground',
     {
         "mbbill/undotree",
         keys =
