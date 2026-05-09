@@ -1,52 +1,84 @@
 # Igor's Dotfiles
 
-Managed using stow
+Personal macOS config, managed with GNU stow.
 
-## SSH Key Management
+## Stack
 
-### Adding a New SSH Key to macOS Keychain
+| Tool          | Role                 | Package dir  |
+| ------------- | -------------------- | ------------ |
+| zsh + zinit   | shell + plugins      | `zsh/`       |
+| starship      | prompt               | `starship/`  |
+| ghostty       | terminal             | `ghostty/`   |
+| tmux + tpm    | multiplexer          | `tmux/`      |
+| neovim + lazy | editor               | `nvim/`      |
+| yazi          | file manager         | `yazi/`      |
+| lazygit       | git TUI (themes only)| `lazygit/`   |
+| ssh           | shared ssh config    | `ssh/`       |
+| mise          | runtime version mgr  | (not stowed) |
 
-With `UseKeychain yes` enabled, SSH keys are **automatically** added to the macOS Keychain when first used:
+## Install on a fresh Mac
 
 ```bash
-# Method 1: Automatic (recommended)
-# Just use your new key - it will be automatically added to Keychain on first use
-ssh -T git@github.com  # or wherever you're using the new key
+# Core shell / editor / terminal workflow
+brew install stow zsh neovim tmux yazi lazygit starship zoxide fzf eza bat ripgrep fd mise git git-delta stylua tree-sitter-cli
 
-# Method 2: Manual (if you prefer explicit control)
-ssh-add --apple-use-keychain ~/.ssh/your-new-key-name
+# Terminal + nerd fonts
+brew install --cask ghostty font-meslo-lg-nerd-font font-symbols-only-nerd-font
 
-# Verify it was added:
-ssh-add -l
+# Clone
+git clone git@github.com:<you>/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+
+# Stow everything that deploys into $HOME
+stow zsh nvim tmux ghostty starship yazi ssh
+# Note: `lazygit/` only holds theme files — not stowed, referenced manually.
+
+# tmux plugin manager (needed before first tmux launch)
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# Then inside tmux: prefix + I to install plugins.
+
+# zinit + lazy.nvim + starship all self-bootstrap on first run.
 ```
 
-### Removing an SSH Key
+## Machine-local overrides
 
-To remove an SSH key from your setup:
+Anything host-specific goes in files that are **not** in this repo:
+
+- `~/.ssh/config.local` — per-host SSH entries (included from `ssh/.ssh/config`)
+- `~/.zshrc.local` — sourced at the end of `.zshrc` if present (add the source line when you need it; not wired by default)
+
+## Gitignored
+
+- `nvim/.config/nvim/lua/istrupinskiy/llm_env.lua` — API keys for the companion plugin
+
+## SSH key management
+
+With `UseKeychain yes`, new SSH keys are added to the macOS Keychain automatically on first use. Manual commands for reference:
 
 ```bash
-# Remove from current session:
-ssh-add -d ~/.ssh/your-key-name
+# Add key to Keychain explicitly
+ssh-add --apple-use-keychain ~/.ssh/<key>
 
-# Remove ALL keys from current session:
+# List keys in the agent
+ssh-add -l
+
+# Remove from current agent session
+ssh-add -d ~/.ssh/<key>
+
+# Remove all keys from current session
 ssh-add -D
 
-# Remove from macOS Keychain permanently:
-ssh-add -K -d ~/.ssh/your-key-name
-
-# Or use Keychain Access app:
-# Applications > Utilities > Keychain Access
-# Search for your key name and delete it
+# Remove from Keychain permanently
+ssh-add -K -d ~/.ssh/<key>
+# or: Keychain Access app → search for the key → delete
 ```
 
-**Note**: Keys removed with `ssh-add -d` are only removed from the current session. To permanently remove from macOS Keychain, use `ssh-add -K -d` or the Keychain Access app.
+`ssh-add -d` only affects the current session. Use `-K -d` or Keychain Access for permanent removal.
 
-### SSH Configuration
+### What the SSH config does
 
-The SSH config automatically handles:
-- Adding keys to the ssh-agent (`AddKeysToAgent yes`)
-- Storing keys in macOS Keychain (`UseKeychain yes`)
-- Cross-compatibility with Homebrew SSH (`IgnoreUnknown UseKeychain`)
-- Using only specified identity files (`IdentitiesOnly yes`)
-- Per-host key selection
-
+- `AddKeysToAgent yes` — auto-add keys to ssh-agent
+- `UseKeychain yes` — persist keys in macOS Keychain
+- `IgnoreUnknown UseKeychain` — keeps Homebrew's OpenSSH from choking on the above
+- `IdentitiesOnly yes` — only offer explicitly-configured keys
+- `Include ~/.ssh/config.local` — per-host overrides (loaded first, so they take precedence)
