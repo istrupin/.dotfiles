@@ -25,6 +25,21 @@ vim.lsp.config('ruff', {
     }),
 })
 
+-- Pyright registers a "**" workspace watcher and emits a $/progress cycle for
+-- every reanalysis triggered by background filesystem activity. Forward only
+-- the first progress token; drop the rest so we get one connect toast and
+-- silence after.
+vim.lsp.config('pyright', {
+    handlers = {
+        ['$/progress'] = function(err, result, ctx)
+            if result.token == (vim.g.pyright_progress_token or result.token) then
+                vim.g.pyright_progress_token = result.token
+                vim.lsp.handlers['$/progress'](err, result, ctx)
+            end
+        end,
+    },
+})
+
 -- Diagnostic UI.
 vim.diagnostic.config({
     float = { border = 'rounded' },
