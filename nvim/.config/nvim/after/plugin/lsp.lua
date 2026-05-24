@@ -66,26 +66,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
--- Format on save for ruff (python) and clojure_lsp (clojure).
-vim.api.nvim_create_autocmd('BufWritePre', {
-    group = vim.api.nvim_create_augroup('istrupinskiy.lsp.format', { clear = true }),
-    callback = function(ev)
-        local ft = vim.bo[ev.buf].filetype
-        local formatters = {
-            python = 'ruff',
-            clojure = 'clojure_lsp',
-        }
-        local wanted = formatters[ft]
-        if not wanted then return end
-        vim.lsp.buf.format({
-            bufnr = ev.buf,
-            async = false,
-            timeout_ms = 10000,
-            filter = function(client) return client.name == wanted end,
-        })
-    end,
-})
-
 require('mason').setup({})
 require('mason-lspconfig').setup({
     ensure_installed = {

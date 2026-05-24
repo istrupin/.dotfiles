@@ -1,0 +1,32 @@
+return {
+    'stevearc/conform.nvim',
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
+    opts = {
+        formatters_by_ft = {
+            python           = { 'ruff_organize_imports', 'ruff_format' },
+            javascript       = { 'prettier' },
+            javascriptreact  = { 'prettier' },
+            typescript       = { 'prettier' },
+            typescriptreact  = { 'prettier' },
+            vue              = { 'prettier' },
+            css              = { 'prettier' },
+            scss             = { 'prettier' },
+            less             = { 'prettier' },
+            html             = { 'prettier' },
+            json             = { 'prettier' },
+            jsonc            = { 'prettier' },
+            yaml             = { 'prettier' },
+            markdown         = { 'prettier' },
+            ['markdown.mdx'] = { 'prettier' },
+            graphql          = { 'prettier' },
+            handlebars       = { 'prettier' },
+            svelte           = { 'prettier' },
+            astro            = { 'prettier' },
+        },
+        format_on_save = {
+            timeout_ms = 10000,
+            lsp_format = 'fallback',
+        },
+    },
+}
