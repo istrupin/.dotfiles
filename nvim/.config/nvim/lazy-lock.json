@@ -48,6 +48,7 @@
   "oil.nvim": { "branch": "master", "commit": "0fcc83805ad11cf714a949c98c605ed717e0b83e" },
   "parpar.nvim": { "branch": "main", "commit": "e99a88f0f0b1234f49a3efe9c49b712b58a5acfc" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
+  "rainbow-delimiters.nvim": { "branch": "master", "commit": "a798325b7f36acc62741d1029930a7b96d4dd4bf" },
   "render-markdown.nvim": { "branch": "main", "commit": "629eb9533ec989d9d5c6cab8f3ad5372422c24e0" },
   "rose-pine": { "branch": "main", "commit": "ff483051a47e27d84bdef47703538df1ed9f4a47" },
   "smear-cursor.nvim": { "branch": "main", "commit": "9e9378d6ee34bb3782e0e8c63d9ec8ca618b479b" },

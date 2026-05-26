@@ -63,6 +63,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local bufopts = { buffer = ev.buf, silent = true }
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+        vim.keymap.set('n', '<leader>lf', function()
+            vim.lsp.buf.code_action({ context = { only = { 'source.fixAll' } }, apply = true })
+        end, bufopts)
+        vim.keymap.set('n', '<leader>li', function()
+            vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+        end, bufopts)
     end,
 })
 
