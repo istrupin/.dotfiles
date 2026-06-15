@@ -10,7 +10,7 @@ return {
         lazy = false,
         init = function()
             local want = {
-                'javascript', 'typescript', 'python', 'c', 'lua', 'vim', 'vimdoc',
+                'javascript', 'typescript', 'tsx', 'python', 'c', 'lua', 'vim', 'vimdoc',
                 'query', 'bash', 'markdown', 'markdown_inline', 'dap_repl',
                 'clojure', 'fennel', 'just',
             }
