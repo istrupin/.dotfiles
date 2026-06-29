@@ -1,1 +1,5 @@
 llm_env.lua
+
+# yazi flavors (color schemes): pinned in yazi/.config/yazi/package.toml,
+# restored via `ya pkg install` — not committed.
+yazi/.config/yazi/flavors/

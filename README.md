@@ -33,6 +33,10 @@ cd ~/.dotfiles
 stow zsh nvim tmux ghostty starship yazi ssh
 # Note: `lazygit/` only holds theme files — not stowed, referenced manually.
 
+# yazi flavors (color schemes) are pinned in yazi/.config/yazi/package.toml
+# but not committed — fetch them into ~/.config/yazi/flavors:
+ya pkg install
+
 # tmux plugin manager (needed before first tmux launch)
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # Then inside tmux: prefix + I to install plugins.
@@ -50,6 +54,7 @@ Anything host-specific goes in files that are **not** in this repo:
 ## Gitignored
 
 - `nvim/.config/nvim/lua/istrupinskiy/llm_env.lua` — API keys for the companion plugin
+- `yazi/.config/yazi/flavors/` — yazi color schemes, restored via `ya pkg install` (pin lives in `package.toml`)
 
 ## SSH key management
 
