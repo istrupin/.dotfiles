@@ -109,5 +109,31 @@ return {
             { "<leader>dx", function() require("dapui").open({ reset = true }) end,                               desc = "Reset UI" },
         },
 
+        config = function()
+            local dap = require("dap")
+
+            -- Clojure debugging via clojure-dap (Olical), driven over your nREPL.
+            -- Needs a running nREPL with cider-nrepl middleware; clojure-dap finds it
+            -- by reading .nrepl-port from the project root, then drives CIDER's debugger.
+            dap.adapters.clojure = {
+                type = "executable",
+                command = "clojure",
+                args = {
+                    "-Sdeps", '{:deps {uk.me.oli/clojure-dap {:mvn/version "RELEASE"}}}',
+                    "-X", "clojure-dap.main/run",
+                },
+            }
+
+            -- One attach config (no host/port -> auto-discovers .nrepl-port).
+            -- Without at least one configuration entry, <leader>dc would report
+            -- "No configuration found for `clojure`".
+            dap.configurations.clojure = {
+                {
+                    name = "Attach to nREPL",
+                    type = "clojure",
+                    request = "attach",
+                },
+            }
+        end,
     }
 }

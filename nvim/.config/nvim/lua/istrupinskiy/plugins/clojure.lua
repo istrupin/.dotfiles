@@ -34,7 +34,6 @@ return {
       dependencies = { "gpanders/nvim-parinfer", "julienvincent/nvim-paredit" },
       ft={"clojure", "edn"},
       config = function()
-        local paredit = require("nvim-paredit")
         require("parpar").setup {
 
         }
