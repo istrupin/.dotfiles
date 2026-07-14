@@ -1,3 +1,33 @@
+local VENV = ".venv"
+local uv = vim.uv or vim.loop
+
+-- `--no-cov` is provided by the pytest-cov plugin; if it isn't installed,
+-- pytest aborts with "unrecognized arguments: --no-cov". Only pass it when
+-- pytest-cov is present in the project's venv. Uses libuv rather than
+-- vim.fn.glob so it's safe in the fast event context neotest builds specs in.
+-- Paths are relative to cwd, the same base neotest uses to run
+-- `.venv/bin/python`, so the check and the runner always agree.
+local function has_pytest_cov()
+    local lib = VENV .. "/lib"
+    local dir = uv.fs_scandir(lib)
+    if not dir then
+        return false
+    end
+    while true do
+        local name = uv.fs_scandir_next(dir)
+        if not name then
+            return false
+        end
+        if name:find("^python") and uv.fs_stat(lib .. "/" .. name .. "/site-packages/pytest_cov") then
+            return true
+        end
+    end
+end
+
+local function pytest_args()
+    return has_pytest_cov() and { "--no-cov" } or {}
+end
+
 return {
     { "nvim-neotest/neotest-python" },
     { "nvim-neotest/neotest-jest" },
@@ -14,9 +44,9 @@ return {
                 adapters = {
                     require("neotest-python")({
                         runner = "pytest",
-                        args = {"--no-cov" },
+                        args = pytest_args,
                         dap = { justMyCode = false },
-                        python = ".venv/bin/python",
+                        python = VENV .. "/bin/python",
                     }),
                     require("neotest-jest")({
                         jestCommand = "npm test --",

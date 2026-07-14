@@ -6,6 +6,7 @@ vim.opt.relativenumber = true
 vim.filetype.add({
     extension = {
         edn = 'clojure',       -- edn is Clojure data; reuse clojure tooling
+        bb = 'clojure',        -- babashka; default maps .bb -> bitbake
         mdx = 'markdown',      -- lets marksman attach to .mdx
         tfvars = 'terraform',  -- lets terraformls attach to .tfvars
     },
