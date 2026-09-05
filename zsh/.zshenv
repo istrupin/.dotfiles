@@ -24,6 +24,6 @@ gf() {
 
 
 # export NODE_EXTRA_CA_CERTS="$HOME/.claude/corporate-ca-bundle.pem"
-export NODE_EXTRA_CA_CERTS="/Library/Application Support/Claude/ca-cert.pem"
+# export NODE_EXTRA_CA_CERTS="/Library/Application Support/Claude/ca-cert.pem"
 # export NODE_EXTRA_CA_CERTS="$HOME/certs/ca-bundle.pem"
 # export NODE_EXTRA_CA_CERTS="$HOME/certs/combined-ca-certs.pem"

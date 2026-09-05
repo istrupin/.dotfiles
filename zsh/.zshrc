@@ -111,6 +111,6 @@ fc -R
 eval "$(starship init zsh)"
 
 # zprof
-export NODE_EXTRA_CA_CERTS="/Library/Application Support/Claude/ca-cert.pem"
+# export NODE_EXTRA_CA_CERTS="/Library/Application Support/Claude/ca-cert.pem"
 # export NODE_OPTIONS="--use-openssl-ca"  # breaks fetch/undici on Node 24.11.1
 # export NODE_EXTRA_CA_CERTS="$HOME/certs/combined-ca-certs.pem"

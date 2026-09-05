@@ -3,3 +3,21 @@ llm_env.lua
 # yazi flavors (color schemes): pinned in yazi/.config/yazi/package.toml,
 # restored via `ya pkg install` — not committed.
 yazi/.config/yazi/flavors/
+
+# SSH secrets / machine-local. If stow folds ~/.ssh into this package
+# (it will when ~/.ssh does not already exist), these would otherwise
+# show up as untracked files. Keys and config.local live in the real
+# ~/.ssh directory, not in the repo.
+ssh/.ssh/config.local
+ssh/.ssh/id_*
+ssh/.ssh/*.pub
+ssh/.ssh/known_hosts*
+ssh/.ssh/agent/
+
+# k9s runtime state. Safety net if stow folds ~/.config/k9s into this
+# package (it will when ~/.config/k9s does not already exist) — k9s would
+# then write its log, per-cluster state, and dumps into the repo.
+k9s/.config/k9s/k9s.log
+k9s/.config/k9s/clusters/
+k9s/.config/k9s/benchmarks/
+k9s/.config/k9s/screen-dumps/

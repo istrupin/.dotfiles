@@ -8,7 +8,11 @@ return {
             -- require("dap-python").setup(path)
             --
             -- Use local python meaning debugpy has to be installed
-            require("dap-python").setup(".venv/bin/python")
+            -- require("dap-python").setup(".venv/bin/python")
+            -- Adapter only: uv launches debugpy (`uv run --with debugpy`).
+            -- Does not pick the project interpreter; venv-selector still
+            -- sets that via resolve_python. Avoids a cwd-relative .venv.
+            require("dap-python").setup("uv")
             require("dap-python").test_runner = "pytest"
         end
     },

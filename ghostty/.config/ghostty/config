@@ -2,8 +2,8 @@ theme = Rose Pine
 background-blur-radius = 20
 mouse-hide-while-typing = true
 window-decoration = true
-keybind = global:cmd+s=toggle_quick_terminal
-background-opacity = 0.5
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+background-opacity = 0.8
 adjust-cursor-thickness = 100%
 custom-shader-animation = "always"
 # custom-shader = /Users/igorstrupinskiy/code/ghostty-shaders/sparks-from-fire.glsl

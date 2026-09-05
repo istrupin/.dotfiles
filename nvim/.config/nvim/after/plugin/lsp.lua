@@ -17,7 +17,7 @@ vim.lsp.config('clojure_lsp', { filetypes = { 'clojure' } })
 vim.lsp.config('marksman',    { filetypes = { 'markdown' } })
 vim.lsp.config('terraformls', { filetypes = { 'terraform' } })
 
--- Pin ruff to UTF-16 so it matches pyright on shared buffers (avoids the
+-- Pin ruff to UTF-16 so it matches basedpyright on shared buffers (avoids the
 -- "buffers attached to clients with different position encodings" warning).
 vim.lsp.config('ruff', {
     capabilities = vim.tbl_deep_extend('force', {}, capabilities, {
@@ -25,15 +25,28 @@ vim.lsp.config('ruff', {
     }),
 })
 
--- Pyright registers a "**" workspace watcher and emits a $/progress cycle for
--- every reanalysis triggered by background filesystem activity. Forward only
--- the first progress token; drop the rest so we get one connect toast and
--- silence after.
-vim.lsp.config('pyright', {
+-- basedpyright inherits pyright's "**" workspace watcher, which emits a
+-- $/progress cycle for every reanalysis triggered by background filesystem
+-- activity. Forward only the first progress token; drop the rest so we get one
+-- connect toast and silence after.
+--
+-- typeCheckingMode: basedpyright defaults to "recommended", which enables
+-- reportAny and friends -- unusable against untyped third-party libs.
+-- "standard" matches what pyright reported.
+--
+-- disableOrganizeImports: conform runs ruff_organize_imports (see conform.lua),
+-- so basedpyright's provider would only compete with it on <leader>li.
+vim.lsp.config('basedpyright', {
+    settings = {
+        basedpyright = {
+            analysis = { typeCheckingMode = 'standard' },
+            disableOrganizeImports = true,
+        },
+    },
     handlers = {
         ['$/progress'] = function(err, result, ctx)
-            if result.token == (vim.g.pyright_progress_token or result.token) then
-                vim.g.pyright_progress_token = result.token
+            if result.token == (vim.g.basedpyright_progress_token or result.token) then
+                vim.g.basedpyright_progress_token = result.token
                 vim.lsp.handlers['$/progress'](err, result, ctx)
             end
         end,
@@ -75,7 +88,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 require('mason').setup({})
 require('mason-lspconfig').setup({
     ensure_installed = {
-        'eslint', 'lua_ls', 'pyright', 'ruff',
+        'eslint', 'lua_ls', 'basedpyright', 'ruff',
         'terraformls', 'clojure_lsp', 'ts_ls', 'marksman',
     },
     automatic_enable = true,

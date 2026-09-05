@@ -5,8 +5,8 @@ local uv = vim.uv or vim.loop
 -- pytest aborts with "unrecognized arguments: --no-cov". Only pass it when
 -- pytest-cov is present in the project's venv. Uses libuv rather than
 -- vim.fn.glob so it's safe in the fast event context neotest builds specs in.
--- Paths are relative to cwd, the same base neotest uses to run
--- `.venv/bin/python`, so the check and the runner always agree.
+-- Paths are relative to cwd. This only decides whether to pass --no-cov;
+-- the runner python comes from venv-selector / uv below.
 local function has_pytest_cov()
     local lib = VENV .. "/lib"
     local dir = uv.fs_scandir(lib)
@@ -46,7 +46,17 @@ return {
                         runner = "pytest",
                         args = pytest_args,
                         dap = { justMyCode = false },
-                        python = VENV .. "/bin/python",
+                        -- python = VENV .. "/bin/python",
+                        -- Use venv-selector so run/debug-nearest share <leader>vs.
+                        -- A hardcoded .venv path is cwd-relative and skips
+                        -- resolve_python once neotest sets `python` on the DAP config.
+                        python = function()
+                            local selected = require("venv-selector").python()
+                            if selected and selected ~= "" then
+                                return selected
+                            end
+                            return { "uv", "run", "python" }
+                        end,
                     }),
                     require("neotest-jest")({
                         jestCommand = "npm test --",
