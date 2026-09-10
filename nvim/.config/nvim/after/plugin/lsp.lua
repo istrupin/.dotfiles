@@ -88,7 +88,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 require('mason').setup({})
 require('mason-lspconfig').setup({
     ensure_installed = {
-        'eslint', 'lua_ls', 'basedpyright', 'ruff',
+        'eslint', 'oxlint', 'lua_ls', 'basedpyright', 'ruff',
         'terraformls', 'clojure_lsp', 'ts_ls', 'marksman',
     },
     automatic_enable = true,

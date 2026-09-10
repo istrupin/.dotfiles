@@ -14,6 +14,9 @@ return {
     },
     indent = { enabled = true},
     input = { enabled = true},
+    -- Only for `vim.ui.select` (ui_select defaults to true); telescope still
+    -- owns the finder keymaps.
+    picker = { enabled = true },
     gitbrowse = {enabled = true},
     git = {enabled = true},
     dashboard = {
