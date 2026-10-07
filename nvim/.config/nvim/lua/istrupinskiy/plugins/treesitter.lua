@@ -12,7 +12,7 @@ return {
             local want = {
                 'javascript', 'typescript', 'tsx', 'python', 'c', 'lua', 'vim', 'vimdoc',
                 'query', 'bash', 'markdown', 'markdown_inline', 'dap_repl',
-                'clojure', 'fennel', 'just',
+                'clojure', 'fennel', 'just', 'json'
             }
 
             require('nvim-dap-repl-highlights').setup()
@@ -43,7 +43,7 @@ return {
             -- Incremental selection via treesitter (bypasses mini.ai's a/i prefix).
             -- <C-Space> grows selection to enclosing node, <BS> shrinks back.
             local stack = {}
-            local updating = false  -- guard so our own mode changes don't wipe the stack
+            local updating = false -- guard so our own mode changes don't wipe the stack
 
             local function reselect(node)
                 local sr, sc, er, ec = node:range()

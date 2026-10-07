@@ -3,6 +3,7 @@
 export PATH="$HOME/.local/bin:$PATH"
 . "$HOME/.cargo/env"
 
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
