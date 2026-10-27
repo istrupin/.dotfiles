@@ -1,0 +1,6 @@
+# Put the hovered/selected files on the macOS clipboard (like Finder's ⌘C) so they can be pasted into Slack etc.
+# The delay keeps osascript alive until the pasteboard has taken every item; exiting immediately drops all but the first.
+[[mgr.prepend_keymap]]
+on   = [ "c", "y" ]
+run  = '''shell -- osascript -l JavaScript -e 'ObjC.import("AppKit"); function run(argv) { const pb = $.NSPasteboard.generalPasteboard; pb.clearContents; pb.writeObjects($(argv.map(p => $.NSURL.fileURLWithPath(p)))); delay(0.5) }' %s'''
+desc = "Copy file(s) to system clipboard"
